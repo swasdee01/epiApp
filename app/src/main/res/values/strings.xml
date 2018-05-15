@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">My Application 1</string>
+    <string name="title_activity_registry">RegistryActivity</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="title_activity_hist_vaccine">HistVaccine</string>
+    <string name="title_activity_new_vaccine">NewVaccine</string>
+    <string name="sendData">ส่งข้อมูล</string>
+    <string name="title_activity_datepicker">datepicker</string>
+    <string name="title_activity_datepicker_d">datepickerD</string>
+</resources>
