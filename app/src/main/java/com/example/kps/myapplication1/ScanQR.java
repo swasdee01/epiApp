@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -61,7 +62,6 @@ public class ScanQR extends AppCompatActivity implements ZXingScannerView.Result
         switch (requestCode) {
             case REQUEST_CAMERA:
                 if (grantResults.length > 0) {
-
                     boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                     if (cameraAccepted){
                         Toast.makeText(getApplicationContext(), "Permission Granted, Now you can access camera", Toast.LENGTH_LONG).show();
@@ -125,7 +125,6 @@ public class ScanQR extends AppCompatActivity implements ZXingScannerView.Result
 
     @Override
     public void handleResult(Result rawResult) {
-
         String result = rawResult.getText();
         editor = spr.edit();
         if(QRvacc.equals(""))   {
@@ -136,6 +135,10 @@ public class ScanQR extends AppCompatActivity implements ZXingScannerView.Result
         }
 //        editor.putString("QRvacc", "");
         editor.commit();
+
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.beep);
+        mediaPlayer.start();
+
         finish();
         Intent intent = new Intent(ScanQR.this, NewVaccine.class);
         startActivity(intent);
