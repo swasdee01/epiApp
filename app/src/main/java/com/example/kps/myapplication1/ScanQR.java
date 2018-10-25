@@ -136,9 +136,8 @@ public class ScanQR extends AppCompatActivity implements ZXingScannerView.Result
 //        editor.putString("QRvacc", "");
         editor.commit();
 
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.beep);
-        mediaPlayer.start();
-
+        MediaPlayer mP = MediaPlayer.create(this, R.raw.beep);
+        mP.start();
         finish();
         Intent intent = new Intent(ScanQR.this, NewVaccine.class);
         startActivity(intent);

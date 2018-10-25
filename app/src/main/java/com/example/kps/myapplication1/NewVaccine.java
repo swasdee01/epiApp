@@ -47,6 +47,8 @@ public class NewVaccine extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+//        Toast.makeText(getBaseContext(), "device type : "+getResources().getString(R.string.device_type), Toast.LENGTH_LONG).show();
+
         cal = Calendar.getInstance();
         mYear = cal.get(Calendar.YEAR);
         mMonth = cal.get(Calendar.MONTH)+1;
