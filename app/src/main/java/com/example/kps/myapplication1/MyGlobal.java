@@ -4,9 +4,9 @@ public class MyGlobal {
 
     private static MyGlobal instance;
 
-    private String myurl, cid, pw, fullName, hcode, birthdate;
+    private String myurl, cid, pw, fullName, hcode;
 
-    private MyGlobal()  {};
+    private MyGlobal()  {}
 
     public static synchronized  MyGlobal getInstance()  {
         if(instance==null)  {
@@ -54,15 +54,6 @@ public class MyGlobal {
     public String gethcode()    {
         return this.hcode;
     }
-/*
-    public void setBirthdate(String d)    {
-        this.birthdate=d;
-    }
-
-    public String getBirthdate()    {
-        return this.birthdate;
-    }
-*/
 
 
 }

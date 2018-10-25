@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/knowledge"
+        android:title="วัคซีนที่ควรรู้"/>
+    <item android:id="@+id/histVaccine"
+        android:title="ประวัติวัคซีน"/>
+    <item android:id="@+id/newVaccine"
+        android:title="บันทึกวัคซีน"/>
+<!--    <item android:id="@+id/map"
+        android:title="แผนที่"/>    -->
+    <item android:id="@+id/exit"
+        android:title="ออกจากโปรแกรม"/>
+</menu>

@@ -1,13 +1,13 @@
 package com.example.kps.myapplication1;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.GridLayout;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
@@ -20,30 +20,19 @@ public class HistVaccine extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hist_vaccine);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-/*
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-*/
 
-        TextView name = (TextView) findViewById(R.id.textView7);
+        TextView name = findViewById(R.id.textView7);
         name.setText(g.getFullName());
 
         addAll();
-
     }
 
     public void addAll()    {
 
-        final android.widget.LinearLayout layout1 = (android.widget.LinearLayout) findViewById(R.id.layout1);
-        final android.widget.LinearLayout layout2 = (android.widget.LinearLayout) findViewById(R.id.layout2);
+        final android.widget.LinearLayout layout1 = findViewById(R.id.layout1);
+        final android.widget.LinearLayout layout2 = findViewById(R.id.layout2);
 
                 Ion.with(HistVaccine.this)
                 .load(g.getUrl()+"histVaccine.php")
@@ -64,15 +53,42 @@ public class HistVaccine extends AppCompatActivity {
                                 newWord.setText(sepR[i]);
                                 newWord.setTextSize(18);
                                 newWord.setTextColor(Color.BLACK);
+                                newWord.setHeight(70);
                                 if(i%2==1)  {  layout1.addView(newWord);    }
                                 else  {  layout2.addView(newWord);    }
                             }
                         }
                     }
                 });
-
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId())   {
+            case R.id.knowledge :
+                startActivity(new Intent(getApplicationContext(), Knowledge.class));
+                return true;
+            case R.id.histVaccine :
+                startActivity(new Intent(getApplicationContext(), HistVaccine.class).putExtra("cid",g.getCid()));
+                return true;
+            case R.id.newVaccine :
+                startActivity(new Intent(getApplicationContext(), NewVaccine.class).putExtra("cid",g.getCid()));
+                return  true;
+            case R.id.exit :
+                Intent intent = new Intent(this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("Exit me", true);
+                startActivity(intent);
+                finish();
+            default: return super.onOptionsItemSelected(item);
+        }
+    }
 
 
 }
