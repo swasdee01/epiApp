@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -16,8 +17,11 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
+
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
@@ -32,7 +36,15 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+/*  //  It work but not used
+        VideoView vd = (VideoView) findViewById(R.id.videoView1);
+        Uri uri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.em3);
+        MediaController mc = new MediaController(this);
+        vd.setMediaController(mc);
+        vd.setVideoURI(uri);
+        vd.requestFocus();
+        vd.start();
+*/
         sp = getSharedPreferences("getSP", Context.MODE_PRIVATE);
         String spvacc = sp.getString("pvacc", "0");
         final String cid = g.getCid();
@@ -42,6 +54,16 @@ public class ProfileActivity extends AppCompatActivity {
         final TextView tv4 = (TextView) findViewById(R.id.textView6);
         Button histVaccine = (Button) findViewById(R.id.button4);
         Button newVaccine = (Button) findViewById(R.id.button5);
+
+        Button youtube = (Button) findViewById(R.id.button6);
+
+        youtube.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(),Youtube.class);
+                startActivity(i);
+            }
+        });
 
         Ion.with(ProfileActivity.this)
                 .load(g.getUrl()+"profile.php")
@@ -118,7 +140,6 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
     }
 
     @Override

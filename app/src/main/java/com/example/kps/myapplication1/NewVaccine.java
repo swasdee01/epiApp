@@ -204,14 +204,7 @@ public class NewVaccine extends AppCompatActivity {
         Intent i = new Intent(getApplicationContext(),Knowledge.class);
         startActivity(i);
     }
-/*
-    public  void onActivityResult(int requestCode, int resultCode, Intent intent)   {
-        if(requestCode == 0 && resultCode == RESULT_OK)   {
-            String contents = intent.getStringExtra("SCAN_RESULT");
-            Toast.makeText(getBaseContext(),"code = "+contents,Toast.LENGTH_LONG).show();
-        }
-    }
-*/
+
     public void chkSP()     {
         Ion.with(NewVaccine.this)
                 .load(g.getUrl()+"chkVaccine.php")
@@ -231,7 +224,7 @@ public class NewVaccine extends AppCompatActivity {
                             spvacc = spvacc.replace("##", "#");
                             editor = sp.edit();
                             editor.putString("pvacc",spvacc);
-                            editor.commit();
+                            editor.apply();
                         }
                     }
                 });
@@ -240,7 +233,7 @@ public class NewVaccine extends AppCompatActivity {
             spvacc = "";
             editor = sp.edit();
             editor.putString("pvacc",spvacc);
-            editor.commit();
+            editor.apply();
         }
     }
 
@@ -262,7 +255,7 @@ public class NewVaccine extends AppCompatActivity {
         if(QRvacc.contains("085"))  {   opv5.setSelected(true); }
         editor = sp.edit();
         editor.putString("QRvacc","");
-        editor.commit();
+        editor.apply();
     }
 
     public void checkVaccSP()   {

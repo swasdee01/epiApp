@@ -79,7 +79,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
         }
-        mMap.setMyLocationEnabled(true);
+//        mMap.setMyLocationEnabled(true);      // It work but not used
         addCircle(location);
     }
 
