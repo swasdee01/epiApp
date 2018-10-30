@@ -129,8 +129,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Youtube"
-            android:label="@string/title_activity_youtube"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

@@ -25,6 +25,8 @@ import android.widget.VideoView;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
+import java.util.Locale;
+
 public class ProfileActivity extends AppCompatActivity {
 
     MyGlobal g = MyGlobal.getInstance();
@@ -46,7 +48,6 @@ public class ProfileActivity extends AppCompatActivity {
         vd.start();
 */
         sp = getSharedPreferences("getSP", Context.MODE_PRIVATE);
-        String spvacc = sp.getString("pvacc", "0");
         final String cid = g.getCid();
         final TextView tv1 = (TextView) findViewById(R.id.textView3);
         final TextView tv2 = (TextView) findViewById(R.id.textView4);

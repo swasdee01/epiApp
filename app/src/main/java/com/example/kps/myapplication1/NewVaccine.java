@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -32,7 +34,7 @@ public class NewVaccine extends AppCompatActivity {
 
     Calendar cal;
     int mYear, mMonth, mDay;
-    String QRvacc, spvacc, dateSer , dataS = "";
+    String QRvacc, spvacc, dateSer , dataS = "", dtph, opv, ipvp, mmr, jel, dtp;
     String[] monthThai = {"มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"};
     DatePickerDialog picker;
     MyGlobal g = MyGlobal.getInstance();
@@ -40,14 +42,14 @@ public class NewVaccine extends AppCompatActivity {
     SharedPreferences sp;
     SharedPreferences.Editor editor;
 
+    TextToSpeech tts;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_vaccine);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-//        Toast.makeText(getBaseContext(), "device type : "+getResources().getString(R.string.device_type), Toast.LENGTH_LONG).show();
 
         cal = Calendar.getInstance();
         mYear = cal.get(Calendar.YEAR);
@@ -57,8 +59,6 @@ public class NewVaccine extends AppCompatActivity {
         sp = getSharedPreferences("getSP", Context.MODE_PRIVATE);
         spvacc = sp.getString("pvacc", "0");
         QRvacc = sp.getString("QRvacc", "0");
-
-        chkSP();
 
         dtph1 = findViewById(R.id.checkBox0);
         opv1 = findViewById(R.id.checkBox1);
@@ -76,8 +76,86 @@ public class NewVaccine extends AppCompatActivity {
         dtp5 = findViewById(R.id.checkBox13);
         opv5 = findViewById(R.id.checkBox14);
 
-        checkVaccQR();
+        chkSP();
         checkVaccSP();
+        checkVaccQR();
+        textToSpeech();
+
+        dtph1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(dtph1.isChecked())   {   speakStart("091");  }
+            }});
+        dtph2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(dtph2.isChecked())    {   speakStart("092");  }
+            }});
+        dtph3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(dtph3.isChecked())    {   speakStart("093");  }
+            }});
+        opv1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(opv1.isChecked())   {   speakStart("081");  }
+            }});
+        opv2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(opv2.isChecked())   {   speakStart("082");  }
+            }});
+        opv3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(opv3.isChecked())   {   speakStart("083");  }
+            }});
+        opv4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(opv4.isChecked())  {   speakStart("084");  }
+            }});
+        opv5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(opv5.isChecked())   {   speakStart("085");  }
+            }});
+        ipv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(ipv.isChecked())  {   speakStart("401");  }
+            }});
+        mmr1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mmr1.isChecked())   {   speakStart("061");  }
+            }});
+        mmr2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mmr2.isChecked())  {   speakStart("073");  }
+            }});
+        jel1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(jel1.isChecked())   {   speakStart("j11");  }
+            }});
+        jel2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(jel2.isChecked())   {   speakStart("j12");  }
+            }});
+        dtp4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(dtp4.isChecked())   {   speakStart("034");  }
+            }});
+        dtp5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(dtp5.isChecked())   {   speakStart("035");  }
+            }});
 
         Button btnGallery = (Button) findViewById(R.id.button2);
         btnGallery.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +169,7 @@ public class NewVaccine extends AppCompatActivity {
                     i.putExtra("dataS", dataS);
                     i.putExtra("dateSer", dateSer);
                     startActivity(i);
+                    finish();
                 }
             }
         });
@@ -102,6 +181,7 @@ public class NewVaccine extends AppCompatActivity {
                 Intent intent = new Intent(NewVaccine.this, ScanQR.class);
                 intent.putExtra("SCAN_MODE","QR_CODE_MODE");
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -117,6 +197,7 @@ public class NewVaccine extends AppCompatActivity {
                     i.putExtra("dataS", dataS);
                     i.putExtra("dateSer", dateSer);
                     startActivity(i);
+                    finish();
                 }
             }
         });
@@ -194,12 +275,77 @@ public class NewVaccine extends AppCompatActivity {
                                         }
                                     };
                                     new Handler().postDelayed(run,3000);
+                                    editor = sp.edit();
+                                    editor.putString("QRvacc","");
+                                    editor.apply();
                                 }
                             });
                 }
             }
         });
     }
+
+    public void textToSpeech()  {
+        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status == TextToSpeech.SUCCESS)    {
+                    if(QRvacc!=null||QRvacc.equals("")) {
+                        speakStart(QRvacc);
+                    }
+                }
+            }
+        });
+    }
+
+    public void speakStart(String string)    {
+
+        String str = "";
+        dtph = "วัคซีนป้องกันโรคคอตีบ ไอกรน บาดทะยัก ไวรัสตับอักเสบ";
+        opv = "วัคซีนป้องกันโรคโปลิโอ";
+        ipvp = "วัคซีนป้องกันโรคโปลิโอ ชนิดฉีด";
+        mmr = "วัคซีนป้องกันโรคหัด คางทูม หัดเยอรมัน";
+        jel = "วัคซีนป้องกันโรคไข้สมองอักเสบ";
+        dtp = "วัคซีนป้องกันโรคคอตีบ ไอกรน บาดทะยัก";
+
+        if(string.contains("091")||string.contains("092")||string.contains("093")) {
+            str = dtph;
+        }
+        if(string.contains("081")||string.contains("082")||string.contains("083")||string.contains("084")||string.contains("085")) {
+            str = str+" "+opv;
+        }
+        if(string.contains("401")) {
+            str = str+" "+ipvp;
+        }
+        if(string.contains("061")||string.contains("073")) {
+            str = str+" "+mmr;
+        }
+        if(string.contains("j11")||string.contains("j12")) {
+            str = str+" "+jel;
+        }
+        if(string.contains("034")||string.contains("035")) {
+            str = str+" "+dtp;
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            tts.speak(str, TextToSpeech.QUEUE_ADD, null, "");
+        } else {
+            tts.speak(str, TextToSpeech.QUEUE_ADD, null);
+        }
+
+        editor = sp.edit();
+        editor.putString("QRvacc","");
+        editor.apply();
+    }
+
+    @Override
+    public void onPause()   {
+        if(tts != null) {
+            tts.stop();
+            tts.shutdown();
+        }   super.onPause();
+    }
+
     public void openK()   {
         Intent i = new Intent(getApplicationContext(),Knowledge.class);
         startActivity(i);
@@ -242,20 +388,18 @@ public class NewVaccine extends AppCompatActivity {
         if(QRvacc.contains("081"))  {   opv1.setChecked(true);   }
         if(QRvacc.contains("092"))  {   dtph2.setChecked(true);  }
         if(QRvacc.contains("082"))  {   opv2.setChecked(true);   }
-        if(QRvacc.contains("401"))  {   ipv.setChecked(true);   }
-        if(QRvacc.contains("093"))  {   dtph3.setChecked(true); }
-        if(QRvacc.contains("083"))  {   opv3.setChecked(true);  }
-        if(QRvacc.contains("061"))  {   mmr1.setChecked(true);  }
-        if(QRvacc.contains("J11"))  {   jel1.setChecked(true);  }
-        if(QRvacc.contains("034"))  {   dtp4.setChecked(true);  }
-        if(QRvacc.contains("084"))  {   opv4.setChecked(true);  }
-        if(QRvacc.contains("073"))  {   mmr2.setChecked(true);  }
-        if(QRvacc.contains("J12"))  {   jel2.setChecked(true);  }
-        if(QRvacc.contains("035"))  {   dtp5.setChecked(true);  }
-        if(QRvacc.contains("085"))  {   opv5.setSelected(true); }
-        editor = sp.edit();
-        editor.putString("QRvacc","");
-        editor.apply();
+        if(QRvacc.contains("401"))  {   ipv.setChecked(true);    }
+        if(QRvacc.contains("093"))  {   dtph3.setChecked(true);  }
+        if(QRvacc.contains("083"))  {   opv3.setChecked(true);   }
+        if(QRvacc.contains("061"))  {   mmr1.setChecked(true);   }
+        if(QRvacc.contains("J11"))  {   jel1.setChecked(true);   }
+        if(QRvacc.contains("034"))  {   dtp4.setChecked(true);   }
+        if(QRvacc.contains("084"))  {   opv4.setChecked(true);   }
+        if(QRvacc.contains("073"))  {   mmr2.setChecked(true);   }
+        if(QRvacc.contains("J12"))  {   jel2.setChecked(true);   }
+        if(QRvacc.contains("035"))  {   dtp5.setChecked(true);   }
+        if(QRvacc.contains("085"))  {   opv5.setSelected(true);  }
+        textToSpeech();
     }
 
     public void checkVaccSP()   {

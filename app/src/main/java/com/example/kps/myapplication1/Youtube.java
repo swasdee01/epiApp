@@ -1,9 +1,11 @@
 package com.example.kps.myapplication1;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatCallback;
 import android.support.v7.app.AppCompatDelegate;
@@ -21,7 +23,6 @@ import com.google.android.youtube.player.YouTubePlayerView;
 
 public class Youtube extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
 
-    private AppCompatDelegate delegate;
     private static final int RECOVERY_REQUEST = 1;
     private YouTubePlayerView youTubeView;
     private MyPlayerStateChangeListener playerStateChangeListener;
@@ -32,10 +33,15 @@ public class Youtube extends YouTubeBaseActivity implements YouTubePlayer.OnInit
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_youtube);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-
-//        setSupportActionBar(toolbar);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+            }
+        });
 
         youTubeView = (YouTubePlayerView) findViewById(R.id.youtube_view);
         youTubeView.initialize(Config.YOUTUBE_API_KEY, this);
@@ -48,7 +54,7 @@ public class Youtube extends YouTubeBaseActivity implements YouTubePlayer.OnInit
         player.setPlaybackEventListener(playbackEventListener);
 
         if (!wasRestored) {
-            player.cueVideo("jWTfZgCSgQw"); // Plays https://www.youtube.com/watch?v=fhWaJi1Hsfo    https://youtu.be/jWTfZgCSgQw
+            player.cueVideo("jWTfZgCSgQw"); // Plays https://www.youtube.com/watch?v=fhWaJi1Hsfo
         }
     }
 
@@ -177,4 +183,5 @@ public class Youtube extends YouTubeBaseActivity implements YouTubePlayer.OnInit
     }
 
 }
+
 
